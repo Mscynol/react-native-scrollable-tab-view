@@ -1,6 +1,6 @@
 const React = require('react');
-const ReactNative = require('react-native');
-const DeprecatedPropTypes = require('deprecated-react-native-prop-types');
+const { Component } = React;
+const { ViewPropTypes } = ReactNative = require('react-native');
 const createReactClass = require('create-react-class');
 const PropTypes = require('prop-types');
 const {
@@ -13,8 +13,9 @@ const {
   InteractionManager,
 } = ReactNative;
 
+
 const TimerMixin = require('react-timer-mixin');
-const ViewPager = require('react-native-pager-view');
+const ViewPager = require('react-native-pager-view').default;
 
 const SceneComponent = require('./SceneComponent');
 const DefaultTabBar = require('./DefaultTabBar');
@@ -31,7 +32,6 @@ const ScrollableTabView = createReactClass({
     ScrollableTabBar,
   },
   scrollOnMountCalled: false,
-  tabWillChangeWithoutGesture: false,
 
   propTypes: {
     tabBarPosition: PropTypes.oneOf(['top', 'bottom', 'overlayTop', 'overlayBottom', ]),
@@ -40,12 +40,12 @@ const ScrollableTabView = createReactClass({
     onChangeTab: PropTypes.func,
     onScroll: PropTypes.func,
     renderTabBar: PropTypes.any,
-    tabBarUnderlineStyle: DeprecatedPropTypes.ViewPropTypes.style,
+    tabBarUnderlineStyle: ViewPropTypes.style,
     tabBarBackgroundColor: PropTypes.string,
     tabBarActiveTextColor: PropTypes.string,
     tabBarInactiveTextColor: PropTypes.string,
     tabBarTextStyle: PropTypes.object,
-    style: DeprecatedPropTypes.ViewPropTypes.style,
+    style: ViewPropTypes.style,
     contentProps: PropTypes.object,
     scrollWithoutAnimation: PropTypes.bool,
     locked: PropTypes.bool,
@@ -141,7 +141,6 @@ const ScrollableTabView = createReactClass({
       }
     } else {
       if (this.scrollView) {
-        this.tabWillChangeWithoutGesture = true;
         if (this.props.scrollWithoutAnimation) {
           this.scrollView.setPageWithoutAnimation(pageNumber);
         } else {
@@ -229,6 +228,7 @@ const ScrollableTabView = createReactClass({
       return <Animated.ScrollView
         horizontal
         pagingEnabled
+        keyboardShouldPersistTaps="handled"
         automaticallyAdjustContentInsets={false}
         contentOffset={{ x: this.props.initialPage * this.state.containerWidth, }}
         ref={(scrollView) => { this.scrollView = scrollView; }}
@@ -247,7 +247,7 @@ const ScrollableTabView = createReactClass({
         keyboardDismissMode="on-drag"
         {...this.props.contentProps}
       >
-          {scenes}
+        {scenes}
       </Animated.ScrollView>;
     } else {
       const scenes = this._composeScenes();
@@ -306,11 +306,10 @@ const ScrollableTabView = createReactClass({
     }
 
     const currentPage = this.state.currentPage;
-    !this.tabWillChangeWithoutGesture && this.updateSceneKeys({
+    this.updateSceneKeys({
       page: localNextPage,
       callback: this._onChangeTab.bind(this, currentPage, localNextPage),
     });
-    this.tabWillChangeWithoutGesture = false;
   },
 
   _onChangeTab(prevPage, currentPage) {
