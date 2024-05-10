@@ -13,7 +13,6 @@ the animations behind this work, check out the Rebound section of the
 
 1. Run `npm install react-native-scrollable-tab-view --save`
 2. `var ScrollableTabView = require('react-native-scrollable-tab-view');`
-3. `外部依赖必须安装 "react-native-pager-view": "6.2.2",`
 
 ## Demo
 <a href="https://appetize.io/embed/6qfv7eydjtm34mhn6qwj2nt3xm?embed=true&screenOnly=false&xdocMsg=true&debug=true&scale=100&deviceColor=black&orientation=portrait&device=iphone6s&osVersion=9.3&deviceId=RGV2aWNlOjU2Y2FjNTExZWQwOTM2MTEwMGRhYTNlNg&platform=ios&width=375&height=668&phoneWidth=416&phoneHeight=870&screenOffsetLeft=21&screenOffsetTop=100&params=%7B%7D" target="_blank"><strong>Run this example</strong></a>
